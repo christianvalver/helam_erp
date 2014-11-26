@@ -18,7 +18,7 @@ import javax.validation.constraints.Pattern;
  * @author chrisvv
  */
 @Entity
-public class Entidad implements Serializable {
+public class Entidad implements Serializable,Comparable<Entidad> {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -95,6 +95,11 @@ public class Entidad implements Serializable {
     @Override
     public String toString() {
         return "ec.com.vipsoft.erp.abinadi.dominio.Entidad[ id=" + id + " ]";
+    }
+
+    @Override
+    public int compareTo(Entidad o) {
+        return ruc.compareTo(o.ruc);
     }
     
 }
