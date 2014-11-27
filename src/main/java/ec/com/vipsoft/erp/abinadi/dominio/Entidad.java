@@ -29,7 +29,7 @@ public class Entidad implements Serializable,Comparable<Entidad> {
     private String razonSocial;
     private String nombreComercial;
     private Integer cierreKardex;
-
+    
     public Integer getCierreKardex() {
         return cierreKardex;
     }

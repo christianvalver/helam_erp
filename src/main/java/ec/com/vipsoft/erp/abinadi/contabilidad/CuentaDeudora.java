@@ -15,7 +15,7 @@ import javax.persistence.Entity;
  * @author chrisvv
  */
 @Entity
-@DiscriminatorValue("A")
+@DiscriminatorValue("D")
 public class CuentaDeudora extends CuentaContable implements Serializable {
 
     @Override

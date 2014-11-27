@@ -7,11 +7,17 @@ package ec.com.vipsoft.erp.abinadi.dominio;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Set;
+import java.util.TreeSet;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -19,14 +25,22 @@ import javax.validation.constraints.NotNull;
  * @author chrisvv
  */
 @Entity
-public class Tarifa implements Serializable {
+public class Tarifa implements Serializable,Comparable<Tarifa> {
+
+    public Tarifa() {
+        detalles=new TreeSet<>();
+    }
+    
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String codigo;
+    @Column(columnDefinition = "decimal(3,2) default 1.00")
     private BigDecimal porcentajeAlPVP;
     private Boolean tarifaDefecto;
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    private Set<TarifaDetalle>detalles;
     @NotNull
     @ManyToOne
     private Entidad entidad;
@@ -96,6 +110,23 @@ public class Tarifa implements Serializable {
     @Override
     public String toString() {
         return "ec.com.vipsoft.erp.abinadi.dominio.Tarifa[ id=" + id + " ]";
+    }
+
+    public void anadirBien(BienEconomico b, BigDecimal valor) {
+        TarifaDetalle td=new TarifaDetalle();
+        td.setBien(b);
+        td.setTarifa(this);
+        td.setValor(valor);
+        detalles.add(td);        
+    }
+
+    @Override
+    public int compareTo(Tarifa o) {
+        int retorno=entidad.compareTo(o.entidad);
+        if(retorno==0){
+            retorno=codigo.compareTo(o.codigo);
+        }
+        return retorno;
     }
     
 }

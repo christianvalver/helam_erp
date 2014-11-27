@@ -20,7 +20,7 @@ import javax.validation.constraints.NotNull;
  * @author chrisvv
  */
 @Entity
-public class TarifaDetalle implements Serializable {
+public class TarifaDetalle implements Serializable,Comparable<TarifaDetalle> {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -66,5 +66,40 @@ public class TarifaDetalle implements Serializable {
     public String toString() {
         return "ec.com.vipsoft.erp.abinadi.dominio.TarfiaDetalle[ id=" + id + " ]";
     }
+
+    @Override
+    public int compareTo(TarifaDetalle o) {
+        int retorno=tarifa.compareTo(o.tarifa);
+        if(retorno==0){
+            retorno=bien.compareTo(o.bien);
+        }
+        return retorno;
+    }
+
+    public BienEconomico getBien() {
+        return bien;
+    }
+
+    public void setBien(BienEconomico bien) {
+        this.bien = bien;
+    }
+
+    public Tarifa getTarifa() {
+        return tarifa;
+    }
+
+    public void setTarifa(Tarifa tarifa) {
+        this.tarifa = tarifa;
+    }
+
+    public BigDecimal getValor() {
+        return valor;
+    }
+
+    public void setValor(BigDecimal valor) {
+        this.valor = valor;
+    }
+    
+    
     
 }

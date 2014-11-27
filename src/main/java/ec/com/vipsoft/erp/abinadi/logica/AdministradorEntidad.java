@@ -9,6 +9,8 @@ import ec.com.vipsoft.erp.abinadi.dominio.BienEconomico;
 import ec.com.vipsoft.erp.abinadi.dominio.Bodega;
 import ec.com.vipsoft.erp.abinadi.dominio.Entidad;
 import ec.com.vipsoft.erp.abinadi.dominio.Producto;
+import ec.com.vipsoft.erp.abinadi.dominio.Tarifa;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -35,13 +37,15 @@ public class AdministradorEntidad {
         e.setRazonSocial(razonSocial_);
         e.setNombreComercial(nombreComercial_);
         em.persist(e);
-        
-        Bodega bodegaPrincipal = new Bodega();
-        bodegaPrincipal.setCodigo("001");
-        bodegaPrincipal.setDescripcion("BODEGA MATRIZ");
-        bodegaPrincipal.setEntidad(e);        
+        Tarifa tarifapvp=new Tarifa();
+        tarifapvp.setCodigo("pvp");
+        tarifapvp.setEntidad(e);
+        tarifapvp.setPorcentajeAlPVP(BigDecimal.ONE);
+        tarifapvp.setTarifaDefecto(true);
+        em.persist(tarifapvp);
+             
         planCuenta.iniciarPlanCuentas(e);                
-        em.persist(bodegaPrincipal);
+     //   em.persist(bodegaPrincipal);
        // return e.getId();
 
     }
@@ -61,12 +65,19 @@ public class AdministradorEntidad {
                 if (!listaBodegas.isEmpty()) {
                     Bodega bodega = em.find(Bodega.class, listaBodegas.get(0).getId());
                     bodega.crearKardex((Producto) b);
-                    em.persist(b);                    
+                    em.persist(b);
+                    //poner detalle en tarifa de pvp
+                    Query qtarifapvp=em.createQuery("select t from Tarifa t where t.entidad.id=?1 and t.codigo='pvp'");
+                    qtarifapvp.setParameter(1, entidad.getId());
+                    List<Tarifa>listaTarifa=qtarifapvp.getResultList();
+                    if(!listaTarifa.isEmpty()){
+                        Tarifa tarifapvp=em.find(Tarifa.class, listaTarifa.get(0).getId());
+                        tarifapvp.anadirBien(b,BigDecimal.ZERO);
+                    }
                 }
             } else {
                 em.persist(b);
             }
-
         }
 
     }

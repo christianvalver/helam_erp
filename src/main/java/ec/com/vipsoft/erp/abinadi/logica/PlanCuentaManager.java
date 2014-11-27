@@ -9,6 +9,7 @@ import ec.com.vipsoft.erp.abinadi.contabilidad.CuentaAcreedora;
 import ec.com.vipsoft.erp.abinadi.contabilidad.CuentaContable;
 import ec.com.vipsoft.erp.abinadi.contabilidad.CuentaDeudora;
 import ec.com.vipsoft.erp.abinadi.contabilidad.GrupoCuenta;
+import ec.com.vipsoft.erp.abinadi.dominio.Bodega;
 import ec.com.vipsoft.erp.abinadi.dominio.Entidad;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -57,13 +58,41 @@ public class PlanCuentaManager {
         ///////////////////////////////////////////////////////////////7
         
         CuentaContable ac=activo.anadirSubCuenta("ACTIVOS CORRIENTES");
+        CuentaContable efectivoequ=ac.anadirSubCuenta("EFECTIVO Y EQUIVALENTES A EFECTIVO");
+        CuentaContable caja=efectivoequ.anadirSubCuenta("CAJA");
+        CuentaContable efectransito=efectivoequ.anadirSubCuenta("EFECTIVO EN TRANSITO");
+        CuentaContable bancos=efectivoequ.anadirSubCuenta("BANCOS");
+        CuentaContable equivalentesEfectovo=efectivoequ.anadirSubCuenta("EQUIVALENTES DE EFECTIVO");
+        CuentaContable chequespordepositar=equivalentesEfectovo.anadirSubCuenta("CHEQUES RECIBIDOS POR DEPOSITAR");
+        CuentaContable inversiontemporales=ac.anadirSubCuenta("INVERSIONES FINANCIERAS A CORTO PLAZO");
+        CuentaContable cydxc=ac.anadirSubCuenta("CUENTAS Y DOCUMENTOS POR COBRAR");
+        
+         Bodega bodegaPrincipal = new Bodega();
+        bodegaPrincipal.setCodigo("001");
+        bodegaPrincipal.setDescripcion("BODEGA MATRIZ");
+        bodegaPrincipal.setEntidad(entidad);  
+        bodegaPrincipal.setEstricto(true);
+        Bodega bodegaTransito=new Bodega();
+        bodegaTransito.setCodigo("00");
+        bodegaTransito.setDescripcion("BODEGA TRANSITO");
+        bodegaTransito.setEntidad(entidad);
+        bodegaTransito.setEstricto(false);
+        
+        CuentaContable inventario=ac.anadirSubCuenta("INVENTARIO");
+        CuentaContable cbodegaPrincipal=inventario.anadirSubCuenta("BODEGA MATRIZ");
+        CuentaContable cbodegaTransito=inventario.anadirSubCuenta("BODEGA TRANSITO");
+        bodegaPrincipal.setCuentaContable(cbodegaPrincipal);
+        bodegaTransito.setCuentaContable(cbodegaTransito);
+        CuentaContable periodificaciones=ac.anadirSubCuenta("PERIODIFICACIONES");
         CuentaContable af=activo.anadirSubCuenta("ACTIVOS NO CORRIENTE");
+        
         em.persist(activo);
         em.persist(pasivo);
         em.persist(patrimonio);
         em.persist(ingresos);
         em.persist(gastos);
         em.persist(costos);
+        em.persist(bodegaPrincipal);
         
     }
 

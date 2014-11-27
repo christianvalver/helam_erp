@@ -5,6 +5,7 @@
  */
 package ec.com.vipsoft.erp.abinadi.dominio;
 
+import ec.com.vipsoft.erp.abinadi.contabilidad.CuentaContable;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -42,6 +44,9 @@ public class Bodega implements Serializable {
     protected Entidad entidad;
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)    
     private List<Kardex>kardexes;
+    @NotNull
+    @OneToOne
+    protected CuentaContable cuentaContable;
     
     private String codigo;
     private String descripcion;
@@ -130,6 +135,22 @@ public class Bodega implements Serializable {
         kardex.setValoracion(BigDecimal.ZERO);
         kardexes.add(kardex);
         
+    }
+
+    public List<Kardex> getKardexes() {
+        return kardexes;
+    }
+
+    public void setKardexes(List<Kardex> kardexes) {
+        this.kardexes = kardexes;
+    }
+
+    public CuentaContable getCuentaContable() {
+        return cuentaContable;
+    }
+
+    public void setCuentaContable(CuentaContable cuentaContable) {
+        this.cuentaContable = cuentaContable;
     }
     
 }
