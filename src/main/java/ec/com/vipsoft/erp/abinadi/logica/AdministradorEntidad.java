@@ -10,6 +10,7 @@ import ec.com.vipsoft.erp.abinadi.dominio.Bodega;
 import ec.com.vipsoft.erp.abinadi.dominio.Entidad;
 import ec.com.vipsoft.erp.abinadi.dominio.Producto;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -25,22 +26,27 @@ public class AdministradorEntidad {
 
     @PersistenceContext
     EntityManager em;
+    @EJB
+    PlanCuentaManager planCuenta;
 
     public void registrarEntidad(@Pattern(regexp = "[0-9]{13,13}") String ruc, String razonSocial_, String nombreComercial_) {
         Entidad e = new Entidad();
         e.setRuc(ruc);
         e.setRazonSocial(razonSocial_);
         e.setNombreComercial(nombreComercial_);
+        em.persist(e);
+        
         Bodega bodegaPrincipal = new Bodega();
         bodegaPrincipal.setCodigo("001");
         bodegaPrincipal.setDescripcion("BODEGA MATRIZ");
-        bodegaPrincipal.setEntidad(e);
-        em.persist(e);
+        bodegaPrincipal.setEntidad(e);        
+        planCuenta.iniciarPlanCuentas(e);                
         em.persist(bodegaPrincipal);
        // return e.getId();
 
     }
 
+    
     public void crearBienEconomico(BienEconomico b, String ruc) {
         Query q = em.createQuery("select e from Entidad e where e.ruc=?1");
         q.setParameter(1, ruc);

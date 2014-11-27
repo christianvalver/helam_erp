@@ -7,6 +7,7 @@ package ec.com.vipsoft.erp.abinadi.contabilidad;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 /**
@@ -14,6 +15,7 @@ import javax.persistence.Entity;
  * @author chrisvv
  */
 @Entity
+@DiscriminatorValue("A")
 public class CuentaDeudora extends CuentaContable implements Serializable {
 
     @Override

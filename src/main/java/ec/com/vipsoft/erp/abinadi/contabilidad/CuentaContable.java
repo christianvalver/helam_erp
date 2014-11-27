@@ -5,9 +5,11 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Set;
+import java.util.TreeSet;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@DiscriminatorColumn(name = "tipo",discriminatorType = DiscriminatorType.STRING,length = 2)
 public abstract class CuentaContable implements Serializable, Comparable<CuentaContable> {
 
     public CuentaContable() {
@@ -23,6 +25,7 @@ public abstract class CuentaContable implements Serializable, Comparable<CuentaC
         haber_periodo3=BigDecimal.ZERO;
         haber_periodo4=BigDecimal.ZERO;
         haber_periodo5=BigDecimal.ZERO;
+        subCuentas=new TreeSet<>();
     }
 
     
@@ -258,6 +261,7 @@ public abstract class CuentaContable implements Serializable, Comparable<CuentaC
             subCuentaNueva.setGrupo(grupo);
             subCuentaNueva.setSubcuentasSonAuxiliares(subcuentasSonAuxiliares);
             subCuentaNueva.setEsAuxiliar(subcuentasSonAuxiliares);
+            subCuentaNueva.setEntidad(entidad);
             subCuentas.add(subCuentaNueva);
         }
         return subCuentaNueva;

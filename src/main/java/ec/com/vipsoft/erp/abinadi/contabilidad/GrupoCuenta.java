@@ -10,5 +10,5 @@ package ec.com.vipsoft.erp.abinadi.contabilidad;
  * @author chrisvv
  */
 public enum GrupoCuenta {
-    activo,pasivo,patrimonio,ingresos,egresos;
+    activo,pasivo,patrimonio,ingresos,gastos,costos;
 }
