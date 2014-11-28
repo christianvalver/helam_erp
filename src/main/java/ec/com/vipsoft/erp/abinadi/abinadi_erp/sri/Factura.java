@@ -5,6 +5,7 @@
  */
 package ec.com.vipsoft.erp.abinadi.abinadi_erp.sri;
 
+import ec.com.vipsoft.erp.abinadi.dominio.Entidad;
 import ec.com.vipsoft.erp.abinadi.dominio.cartera.Cliente;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -20,6 +21,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -43,13 +45,47 @@ public class Factura implements Serializable {
     private Date fechaVencimiento;
     @ManyToOne
     protected Cliente cliente;
-    @Column(columnDefinition = "decimal(18,2)")
+    @Column(columnDefinition = "decimal(18,2) default 0.0")
     protected BigDecimal saldo;
+    @Column(columnDefinition = "decimal(18,2) default 0.0")
+    protected BigDecimal subTotalIva0Factura;
+    @Column(columnDefinition = "decimal(18,2) default 0.0")
+    protected BigDecimal subTotalIva12Factura;
     protected String autorizacionSRI;
     @OneToMany(mappedBy = "factura")
     protected Set<NotaCredito>notasCredito;
     @OneToMany(mappedBy = "factura")
     protected Set<Retencion>retenciones;
+    @NotNull
+    @ManyToOne
+    protected Entidad entidad;
+    protected Integer particionamiento;
+
+    public Integer getParticionamiento() {
+        return particionamiento;
+    }
+
+    public void setParticionamiento(Integer particionamiento) {
+        this.particionamiento = particionamiento;
+    }
+     
+
+    public Set<Retencion> getRetenciones() {
+        return retenciones;
+    }
+
+    public void setRetenciones(Set<Retencion> retenciones) {
+        this.retenciones = retenciones;
+    }
+
+    public Entidad getEntidad() {
+        return entidad;
+    }
+
+    public void setEntidad(Entidad entidad) {
+        this.entidad = entidad;
+    }
+    
 
     public Cliente getCliente() {
         return cliente;

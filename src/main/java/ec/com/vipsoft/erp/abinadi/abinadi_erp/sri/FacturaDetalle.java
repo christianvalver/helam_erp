@@ -5,11 +5,15 @@
  */
 package ec.com.vipsoft.erp.abinadi.abinadi_erp.sri;
 
+import ec.com.vipsoft.erp.abinadi.dominio.BienEconomico;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -21,7 +25,66 @@ public class FacturaDetalle implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @ManyToOne
+    private BienEconomico bienEconomico;
+    @Column(columnDefinition = "decimal(18,2) default 1")
+    private BigDecimal cantidad;
+    @Column(columnDefinition = "decimal(18,2) default 0")
+    private BigDecimal precioUnitario;
+    @Column(columnDefinition = "decimal(18,2) default 0")
+    private BigDecimal descuento;
+    @Column(columnDefinition = "decimal(18,2) default 0")
+    private BigDecimal precioTotal;
+    private Integer particionamineto;
 
+    public BienEconomico getBienEconomico() {
+        return bienEconomico;
+    }
+
+    public void setBienEconomico(BienEconomico bienEconomico) {
+        this.bienEconomico = bienEconomico;
+    }
+
+    public BigDecimal getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(BigDecimal cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    public BigDecimal getPrecioUnitario() {
+        return precioUnitario;
+    }
+
+    public void setPrecioUnitario(BigDecimal precioUnitario) {
+        this.precioUnitario = precioUnitario;
+    }
+
+    public BigDecimal getDescuento() {
+        return descuento;
+    }
+
+    public void setDescuento(BigDecimal descuento) {
+        this.descuento = descuento;
+    }
+
+    public BigDecimal getPrecioTotal() {
+        return precioTotal;
+    }
+
+    public void setPrecioTotal(BigDecimal precioTotal) {
+        this.precioTotal = precioTotal;
+    }
+
+    public Integer getParticionamineto() {
+        return particionamineto;
+    }
+
+    public void setParticionamineto(Integer particionamineto) {
+        this.particionamineto = particionamineto;
+    }
+    
     public Long getId() {
         return id;
     }

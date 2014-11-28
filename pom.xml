@@ -115,9 +115,13 @@
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-cdi</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.0.rc1</version>
         </dependency>
-        
+        <dependency>
+            <groupId>org.activiti</groupId>
+            <artifactId>activiti-engine</artifactId>
+            <version>5.16.4</version>
+        </dependency>
 		
     </dependencies>
 

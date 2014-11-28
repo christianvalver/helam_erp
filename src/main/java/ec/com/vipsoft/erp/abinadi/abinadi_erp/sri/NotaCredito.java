@@ -5,6 +5,7 @@
  */
 package ec.com.vipsoft.erp.abinadi.abinadi_erp.sri;
 
+import ec.com.vipsoft.erp.abinadi.dominio.Entidad;
 import ec.com.vipsoft.erp.abinadi.dominio.cartera.Cliente;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -37,6 +38,17 @@ public class NotaCredito implements Serializable {
     protected BigDecimal monto;
     @Column(columnDefinition = "decimal(18,2)")
     protected BigDecimal saldo;
+    @ManyToOne
+    protected Entidad entidad;
+
+    public Entidad getEntidad() {
+        return entidad;
+    }
+
+    public void setEntidad(Entidad entidad) {
+        this.entidad = entidad;
+    }
+    
 
     public Factura getFactura() {
         return factura;
