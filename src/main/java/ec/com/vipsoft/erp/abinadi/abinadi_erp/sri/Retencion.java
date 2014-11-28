@@ -5,19 +5,15 @@
  */
 package ec.com.vipsoft.erp.abinadi.abinadi_erp.sri;
 
-import ec.com.vipsoft.erp.abinadi.dominio.cartera.Cliente;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.Set;
-import java.util.TreeSet;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -26,47 +22,19 @@ import javax.persistence.TemporalType;
  * @author chrisvv
  */
 @Entity
-public class Factura implements Serializable {
-
-    public Factura() {
-        notasCredito=new TreeSet<>();
-    }
-    
+public class Retencion implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String numeracion;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaEmision;
-    @Temporal(TemporalType.DATE)
-    private Date fechaVencimiento;
-    @ManyToOne
-    protected Cliente cliente;
-    @Column(columnDefinition = "decimal(18,2)")
-    protected BigDecimal saldo;
     protected String autorizacionSRI;
-    @OneToMany(mappedBy = "factura")
-    protected Set<NotaCredito>notasCredito;
-    @OneToMany(mappedBy = "factura")
-    protected Set<Retencion>retenciones;
-
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
-    public BigDecimal getSaldo() {
-        return saldo;
-    }
-
-    public void setSaldo(BigDecimal saldo) {
-        this.saldo = saldo;
-    }
-
+    protected String numeracionSRI;
+    @Temporal(TemporalType.DATE)
+    protected Date fechaEmision;
+    @Column(columnDefinition = "decimal(18,2)")
+    protected BigDecimal totalRetenido;
+    @ManyToOne
+    protected Factura factura;
     public String getAutorizacionSRI() {
         return autorizacionSRI;
     }
@@ -75,20 +43,12 @@ public class Factura implements Serializable {
         this.autorizacionSRI = autorizacionSRI;
     }
 
-    public Set<NotaCredito> getNotasCredito() {
-        return notasCredito;
+    public String getNumeracionSRI() {
+        return numeracionSRI;
     }
 
-    public void setNotasCredito(Set<NotaCredito> notasCredito) {
-        this.notasCredito = notasCredito;
-    }
-    
-    public String getNumeracion() {
-        return numeracion;
-    }
-
-    public void setNumeracion(String numeracion) {
-        this.numeracion = numeracion;
+    public void setNumeracionSRI(String numeracionSRI) {
+        this.numeracionSRI = numeracionSRI;
     }
 
     public Date getFechaEmision() {
@@ -99,14 +59,13 @@ public class Factura implements Serializable {
         this.fechaEmision = fechaEmision;
     }
 
-    public Date getFechaVencimiento() {
-        return fechaVencimiento;
+    public BigDecimal getTotalRetenido() {
+        return totalRetenido;
     }
 
-    public void setFechaVencimiento(Date fechaVencimiento) {
-        this.fechaVencimiento = fechaVencimiento;
+    public void setTotalRetenido(BigDecimal totalRetenido) {
+        this.totalRetenido = totalRetenido;
     }
-    
     
     public Long getId() {
         return id;
@@ -126,10 +85,10 @@ public class Factura implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Factura)) {
+        if (!(object instanceof Retencion)) {
             return false;
         }
-        Factura other = (Factura) object;
+        Retencion other = (Retencion) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -138,7 +97,7 @@ public class Factura implements Serializable {
 
     @Override
     public String toString() {
-        return "ec.com.vipsoft.erp.abinadi.dominio.Factura[ id=" + id + " ]";
+        return "ec.com.vipsoft.erp.abinadi.abinadi_erp.sri.Retencion[ id=" + id + " ]";
     }
     
 }

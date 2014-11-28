@@ -63,6 +63,8 @@ public class EntidadVista extends HorizontalLayout implements View {
                     
             }
         });
+        //ponemos los valores cargados por defecto 
+        
     }
 
     

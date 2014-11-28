@@ -93,9 +93,18 @@ public class PlanCuentaManager {
         em.persist(gastos);
         em.persist(costos);
         em.persist(bodegaPrincipal);
+        em.persist(bodegaTransito);
         
     }
 
+    public boolean existeUnaEmpresaRegistrada(){
+        boolean retorno=false;
+        Entidad entidad=em.find(Entidad.class, 1l);
+        if(entidad!=null){
+            retorno=true;
+        }               
+        return retorno;
+    }
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
     

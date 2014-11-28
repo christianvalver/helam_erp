@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ec.com.vipsoft.erp.abinadi.dominio;
+package ec.com.vipsoft.erp.abinadi.abinadi_erp.sri;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
@@ -26,7 +26,7 @@ public class Contribuyente implements Serializable {
     private String nombreComerical;
     private String direccion;
     private String telefono;
-
+    
     public String getIdentifiacion() {
         return identifiacion;
     }

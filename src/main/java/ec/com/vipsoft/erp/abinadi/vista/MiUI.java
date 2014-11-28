@@ -5,12 +5,16 @@
  */
 package ec.com.vipsoft.erp.abinadi.vista;
 
+import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.cdi.CDIUI;
 import com.vaadin.cdi.CDIViewProvider;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
+import ec.com.vipsoft.erp.abinadi.logica.PlanCuentaManager;
+import javax.ejb.EJB;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 /**
@@ -20,18 +24,24 @@ import javax.inject.Inject;
 
 @CDIUI("")
 @Theme("mytheme")
+@PreserveOnRefresh
 public class MiUI extends UI{
     private Navigator navigator=new Navigator(this,this);
 
     public MiUI() {
         
     }
-    
-    @Inject
+    @Default
+    @Inject                        
     CDIViewProvider viewProvider;
-    @Override
+    @EJB
+    PlanCuentaManager planCuenta;
+    @Override    
     protected void init(VaadinRequest request) {
         navigator.addProvider(viewProvider);
+        if(planCuenta.existeUnaEmpresaRegistrada()){
+            navigator.navigateTo("bys");
+        }
      //   navigator.addView("", EntidadVista.class);
       //  setContent(this);
     }

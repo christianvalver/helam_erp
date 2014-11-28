@@ -12,6 +12,8 @@ import ec.com.vipsoft.erp.abinadi.dominio.Producto;
 import ec.com.vipsoft.erp.abinadi.dominio.Tarifa;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -63,9 +65,12 @@ public class AdministradorEntidad {
                 qbodega.setParameter(1, entidad.getId());
                 List<Bodega> listaBodegas = qbodega.getResultList();
                 if (!listaBodegas.isEmpty()) {
-                    Bodega bodega = em.find(Bodega.class, listaBodegas.get(0).getId());
-                    bodega.crearKardex((Producto) b);
-                    em.persist(b);
+                    for(Bodega bod:listaBodegas){
+                        Bodega bodega = em.find(Bodega.class, bod.getId());
+                        bodega.crearKardex((Producto) b);
+                        em.persist(b);
+                    }
+                    
                     //poner detalle en tarifa de pvp
                     Query qtarifapvp=em.createQuery("select t from Tarifa t where t.entidad.id=?1 and t.codigo='pvp'");
                     qtarifapvp.setParameter(1, entidad.getId());
@@ -80,6 +85,13 @@ public class AdministradorEntidad {
             }
         }
 
+    }
+    
+    public Set<BienEconomico>listarBienEconomico(String ruc){
+        Set<BienEconomico>retorno=new TreeSet<>();
+        
+        
+        return retorno;
     }
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
