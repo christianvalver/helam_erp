@@ -9,11 +9,14 @@ import ec.com.vipsoft.erp.abinadi.dominio.Entidad;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Set;
+import java.util.TreeSet;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,7 +39,7 @@ public class PlantillaDeTransaccion implements Serializable {
     @Column(columnDefinition = "decimal(20,2)")
     protected BigDecimal monto;
     protected String glosa;
-    @OneToMany(mappedBy = "transaccion")
+    @OneToMany(mappedBy = "transaccion",cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
     protected Set<TransaccionDetalle> detalles;
     protected Integer particionador;
 
@@ -109,16 +112,27 @@ public class PlantillaDeTransaccion implements Serializable {
         return true;
     }
 
-    public void anadirCredito(CuentaContable buscarCuentaXCodigo) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    
+
+    public void anadirCredito(CuentaContable c1, BigDecimal monto) {
+        TransaccionDetalle detalle=new TransaccionDetalle();
+        detalle.setCuentaContable(c1);
+        detalle.setTipo(TipoTransaccionDetalle.credito);
+        detalle.setMonto(monto);
+        detalles.add(detalle);
     }
 
-    public void anadirCredito(CuentaContable c1, BigDecimal ZERO) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void anadirDebito(CuentaContable c2, BigDecimal monto) {
+        TransaccionDetalle detalle=new TransaccionDetalle();
+        detalle.setCuentaContable(c2);
+        detalle.setTipo(TipoTransaccionDetalle.debito);
+        detalle.setMonto(monto);
+        detalles.add(detalle);
     }
 
-    public void anadirDebito(CuentaContable c2, BigDecimal ZERO) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public PlantillaDeTransaccion() {
+        detalles=new TreeSet<>();
     }
+    
     
 }

@@ -11,9 +11,11 @@ import ec.com.vipsoft.erp.abinadi.contabilidad.CuentaDeudora;
 import ec.com.vipsoft.erp.abinadi.contabilidad.GrupoCuenta;
 import ec.com.vipsoft.erp.abinadi.dominio.Bodega;
 import ec.com.vipsoft.erp.abinadi.dominio.Entidad;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -128,7 +130,14 @@ public class PlanCuentaManager {
     }
     public CuentaContable buscarCuentaXCodigo(String codigoCuenta  ,Entidad e){
         CuentaContable retorno=null;
-        
+        Query q=em.createQuery("select c from CuentaContable c where c.codigo=?1 and c.entidad.id=?2");
+        q.setParameter(1, codigoCuenta);
+        q.setParameter(2, e.getId());
+        List<CuentaContable>listado=q.getResultList();
+        if(!listado.isEmpty())
+        {
+            retorno=listado.get(0);
+        }                
         return retorno;
     }
     // Add business logic below. (Right-click in editor and choose

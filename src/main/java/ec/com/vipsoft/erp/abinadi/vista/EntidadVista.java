@@ -54,6 +54,7 @@ public class EntidadVista extends HorizontalLayout implements View {
             @Override
             public void buttonClick(Button.ClickEvent event) {
                 administradorEntidad.registrarEntidad(ruc.getValue(), razonSocial.getValue(),nombreComerical.getValue());
+                administradorEntidad.postregistrarEntidad(ruc.getValue());
                 
                     Notification.show("se ha grabado una entidad con id ");
                     ruc.setValue("");

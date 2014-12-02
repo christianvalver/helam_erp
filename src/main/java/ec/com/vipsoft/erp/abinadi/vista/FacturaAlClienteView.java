@@ -5,6 +5,7 @@
  */
 package ec.com.vipsoft.erp.abinadi.vista;
 
+import com.vaadin.cdi.CDIView;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -21,6 +22,8 @@ import java.util.Date;
  *
  * @author chrisvv
  */
+
+@CDIView("FacturacionCliente")
 public class FacturaAlClienteView extends VerticalLayout implements View{
 
     private Navigator navigator;
@@ -66,6 +69,7 @@ public class FacturaAlClienteView extends VerticalLayout implements View{
     public FacturaAlClienteView(){
         
         super();
+        setMargin(true);
         labelRUC=new Button("RUC/ID");
         
         rucIDTextField=new TextField();

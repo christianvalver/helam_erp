@@ -12,6 +12,7 @@ import ec.com.vipsoft.erp.abinadi.dominio.Bodega;
 import ec.com.vipsoft.erp.abinadi.dominio.Entidad;
 import ec.com.vipsoft.erp.abinadi.dominio.Producto;
 import ec.com.vipsoft.erp.abinadi.dominio.Tarifa;
+import ec.com.vipsoft.erp.abinadi.dominio.cartera.Cliente;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
@@ -49,6 +50,7 @@ public class AdministradorEntidad {
         em.persist(tarifapvp);
              
         planCuenta.iniciarPlanCuentas(e);                
+       
      //   em.persist(bodegaPrincipal);
        // return e.getId();
 
@@ -101,10 +103,47 @@ public class AdministradorEntidad {
         PlantillaDeTransaccion plantillaVentas=new PlantillaDeTransaccion();
         plantillaVentas.setGlosa("Registrar venta según Factura N° numeroFactura");
         CuentaContable c1=planCuenta.buscarCuentaXCodigo("4.1.1.1", e);
-        CuentaContable c2=planCuenta.buscarCuentaXCodigo("1.1.3", e);
+        CuentaContable c2=planCuenta.buscarCuentaXCodigo("1.1.3.1", e);
         plantillaVentas.anadirCredito(c1,BigDecimal.ZERO);
         plantillaVentas.anadirDebito(c2,BigDecimal.ZERO);
         em.persist(plantillaVentas);
         
+    }
+
+    public void iniciarCuentasEspecificasEntidad(Entidad e) {
+       CuentaContable cxcclientes=planCuenta.buscarCuentaXCodigo("1.1.3.1",e);
+       CuentaContable bestDoctor=cxcclientes.anadirSubCuenta("BESTDOCTOR");
+       CuentaContable salud=cxcclientes.anadirSubCuenta("SALUD S.A");
+       CuentaContable humana=cxcclientes.anadirSubCuenta("HUMANA");
+       CuentaContable bupa=cxcclientes.anadirSubCuenta("BUPA");
+       CuentaContable clientes=cxcclientes.anadirSubCuenta("Clientes personas naturales");
+       clientes.setSubcuentasSonAuxiliares(true);
+       
+       
+       Cliente cbest=new Cliente();
+       cbest.setCredito(true);
+       cbest.setCuentaXCobrar(bestDoctor);
+       cbest.setNombreComerical("BEST DOCTOR");
+       cbest.setIdentifiacion("0999999999001");
+       
+       em.persist(bestDoctor);
+       em.persist(salud);
+       em.persist(humana);
+       em.persist(bupa);
+       em.persist(clientes);
+       
+       
+       em.persist(cbest);
+    }
+    public void postregistrarEntidad(String ruc){
+        Query q=em.createQuery("select e from Entidad e where e.ruc=?1");
+        q.setParameter(1, ruc);
+        List<Entidad>listado=q.getResultList();
+        if(!listado.isEmpty()){
+            Entidad e=em.find(Entidad.class, listado.get(0).getId());
+            iniciarCuentasEspecificasEntidad(e);
+            registrarTransaccionesPlantillas(e);
+        }
+         
     }
 }
