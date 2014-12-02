@@ -29,6 +29,16 @@ public class Entidad implements Serializable,Comparable<Entidad> {
     private String razonSocial;
     private String nombreComercial;
     private Integer cierreKardex;
+    protected Long secuenciaTransaccion;
+
+    public Long getSecuenciaTransaccion() {
+        return secuenciaTransaccion;
+    }
+
+    public void setSecuenciaTransaccion(Long secuenciaTransaccion) {
+        this.secuenciaTransaccion = secuenciaTransaccion;
+    }
+    
     
     public Integer getCierreKardex() {
         return cierreKardex;
@@ -101,5 +111,19 @@ public class Entidad implements Serializable,Comparable<Entidad> {
     public int compareTo(Entidad o) {
         return ruc.compareTo(o.ruc);
     }
+
+    public Entidad() {
+        secuenciaTransaccion=1L;
+    }
     
+    public String siguienteTransaccion(){
+        StringBuilder sb=new StringBuilder();
+        int longitud=8-secuenciaTransaccion.toString().length();
+        for(int i=0;i>longitud;i++){
+            sb.append("0");
+        }
+        secuenciaTransaccion++;
+        sb.append(secuenciaTransaccion);
+        return sb.toString();
+    }
 }

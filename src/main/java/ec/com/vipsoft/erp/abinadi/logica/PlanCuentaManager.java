@@ -66,8 +66,9 @@ public class PlanCuentaManager {
         CuentaContable chequespordepositar=equivalentesEfectovo.anadirSubCuenta("CHEQUES RECIBIDOS POR DEPOSITAR");
         CuentaContable inversiontemporales=ac.anadirSubCuenta("INVERSIONES FINANCIERAS A CORTO PLAZO");
         CuentaContable cydxc=ac.anadirSubCuenta("CUENTAS Y DOCUMENTOS POR COBRAR");
-        
-         Bodega bodegaPrincipal = new Bodega();
+        CuentaContable cxcclientes=cydxc.anadirSubCuenta("CUENTAS POR COBRAR A CLIENTES");
+                
+        Bodega bodegaPrincipal = new Bodega();
         bodegaPrincipal.setCodigo("001");
         bodegaPrincipal.setDescripcion("BODEGA MATRIZ");
         bodegaPrincipal.setEntidad(entidad);  
@@ -81,10 +82,30 @@ public class PlanCuentaManager {
         CuentaContable inventario=ac.anadirSubCuenta("INVENTARIO");
         CuentaContable cbodegaPrincipal=inventario.anadirSubCuenta("BODEGA MATRIZ");
         CuentaContable cbodegaTransito=inventario.anadirSubCuenta("BODEGA TRANSITO");
-        bodegaPrincipal.setCuentaContable(cbodegaPrincipal);
-        bodegaTransito.setCuentaContable(cbodegaTransito);
+        bodegaPrincipal.setCuentaContableBodega(cbodegaPrincipal);
+        bodegaTransito.setCuentaContableBodega(cbodegaTransito);
         CuentaContable periodificaciones=ac.anadirSubCuenta("PERIODIFICACIONES");
         CuentaContable af=activo.anadirSubCuenta("ACTIVOS NO CORRIENTE");
+        CuentaContable pasivoCorreintes=pasivo.anadirSubCuenta("PASIVOS CORRIENTES");
+        CuentaContable pasivoNoCorriente=pasivo.anadirSubCuenta("PASIVOS NO CORRIENTES");
+        CuentaContable cuentasXPagar=pasivoCorreintes.anadirSubCuenta("CUENTAS POR PAGAR");
+        CuentaContable docxpagar=pasivoCorreintes.anadirSubCuenta("DOCUMENTOS POR PAGAR");
+        CuentaContable provisiones=pasivoCorreintes.anadirSubCuenta("PROVISIONES");
+        CuentaContable docxpagarLargoPlazo=pasivoNoCorriente.anadirSubCuenta("DOCUMENTOS POR PAGAR LARGO PLAZO");
+        
+        
+        CuentaContable capitalyreserva=patrimonio.anadirSubCuenta("CAPITAL Y RESERVAS");
+        CuentaContable ingresoOrdinario=ingresos.anadirSubCuenta("INGRESOS ACTIVIDADES ORDINARIAS");
+        CuentaContable ventas=ingresoOrdinario.anadirSubCuenta("VENTAS");
+        CuentaContable vomatriz=ventas.anadirSubCuenta("MATRIZ");
+        CuentaContable interesesganados=ingresoOrdinario.anadirSubCuenta("INTERESES GANADOS");
+        CuentaContable otrosIngresos=ingresos.anadirSubCuenta("OTROS INGRESOS");
+        
+        
+        CuentaContable coao=costos.anadirSubCuenta("COSTO DE ACTIVIDADES ORDINARIAS");
+        CuentaContable costoVentas=coao.anadirSubCuenta("COSTO DE VENTAS");
+        CuentaContable costoMercaderia=costoVentas.anadirSubCuenta("COSTO DE MERCADERIA");
+        
         
         em.persist(activo);
         em.persist(pasivo);
@@ -103,6 +124,11 @@ public class PlanCuentaManager {
         if(entidad!=null){
             retorno=true;
         }               
+        return retorno;
+    }
+    public CuentaContable buscarCuentaXCodigo(String codigoCuenta  ,Entidad e){
+        CuentaContable retorno=null;
+        
         return retorno;
     }
     // Add business logic below. (Right-click in editor and choose

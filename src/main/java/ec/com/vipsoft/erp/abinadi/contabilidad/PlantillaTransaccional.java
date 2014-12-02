@@ -27,7 +27,7 @@ public class PlantillaTransaccional implements Serializable {
     @ManyToOne
     private Entidad entidad;
     @OneToOne
-    private Transaccion transaccionPlantilla;
+    private PlantillaDeTransaccion transaccionPlantilla;
     private String glosa;
     private String descripcion;
 
@@ -39,11 +39,11 @@ public class PlantillaTransaccional implements Serializable {
         this.entidad = entidad;
     }
 
-    public Transaccion getTransaccionPlantilla() {
+    public PlantillaDeTransaccion getTransaccionPlantilla() {
         return transaccionPlantilla;
     }
 
-    public void setTransaccionPlantilla(Transaccion transaccionPlantilla) {
+    public void setTransaccionPlantilla(PlantillaDeTransaccion transaccionPlantilla) {
         this.transaccionPlantilla = transaccionPlantilla;
     }
 

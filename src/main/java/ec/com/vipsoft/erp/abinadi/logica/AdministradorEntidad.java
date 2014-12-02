@@ -5,6 +5,8 @@
  */
 package ec.com.vipsoft.erp.abinadi.logica;
 
+import ec.com.vipsoft.erp.abinadi.contabilidad.CuentaContable;
+import ec.com.vipsoft.erp.abinadi.contabilidad.PlantillaDeTransaccion;
 import ec.com.vipsoft.erp.abinadi.dominio.BienEconomico;
 import ec.com.vipsoft.erp.abinadi.dominio.Bodega;
 import ec.com.vipsoft.erp.abinadi.dominio.Entidad;
@@ -95,4 +97,14 @@ public class AdministradorEntidad {
     }
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
+    public void registrarTransaccionesPlantillas(Entidad e){
+        PlantillaDeTransaccion plantillaVentas=new PlantillaDeTransaccion();
+        plantillaVentas.setGlosa("Registrar venta según Factura N° numeroFactura");
+        CuentaContable c1=planCuenta.buscarCuentaXCodigo("4.1.1.1", e);
+        CuentaContable c2=planCuenta.buscarCuentaXCodigo("1.1.3", e);
+        plantillaVentas.anadirCredito(c1,BigDecimal.ZERO);
+        plantillaVentas.anadirDebito(c2,BigDecimal.ZERO);
+        em.persist(plantillaVentas);
+        
+    }
 }

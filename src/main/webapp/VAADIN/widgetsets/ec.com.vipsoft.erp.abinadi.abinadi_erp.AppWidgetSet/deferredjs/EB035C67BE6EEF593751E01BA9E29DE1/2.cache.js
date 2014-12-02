@@ -1,1 +1,0 @@
-$wnd.ec_com_vipsoft_erp_abinadi_abinadi_erp_AppWidgetSet.runAsyncCallback2('T8(478,1,pkd);_.vc=function U_b(){iRb((!bRb&&(bRb=new nRb),bRb),this.b.e)};Qed(Vh)(2);\n//# sourceURL=ec.com.vipsoft.erp.abinadi.abinadi_erp.AppWidgetSet-2.js\n')

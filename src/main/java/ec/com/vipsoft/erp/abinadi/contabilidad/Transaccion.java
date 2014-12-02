@@ -5,18 +5,11 @@
  */
 package ec.com.vipsoft.erp.abinadi.contabilidad;
 
-import ec.com.vipsoft.erp.abinadi.dominio.Entidad;
-import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
-import java.util.Set;
-import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -25,40 +18,27 @@ import javax.persistence.TemporalType;
  * @author chrisvv
  */
 @Entity
-public class Transaccion implements Serializable {
+@DiscriminatorValue("t")
+public class Transaccion extends PlantillaDeTransaccion {
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     @Temporal(TemporalType.DATE)
     private Date fechaTransaccion;
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaRegistro;
-    @ManyToOne
-    private Entidad entidad;
-    @Column(columnDefinition = "decimal(20,2)")
-    private BigDecimal monto;
-    private String glosa;
     private String usuario;
-    @OneToMany(mappedBy = "transaccion")
-    private Set<TransaccionDetalle>detalles;
-    
-    private Integer particionador;
+    private boolean mayorizada;
+    private String secuenciaTransaccion;
+    @OneToOne
+    private Transaccion transaccionReversada;
 
-    public Set<TransaccionDetalle> getDetalles() {
-        return detalles;
+    @ManyToOne
+    private CuentaContable cuentaACompletar;
+    public Transaccion getTransaccionReversada() {
+        return transaccionReversada;
     }
 
-    public void setDetalles(Set<TransaccionDetalle> detalles) {
-        this.detalles = detalles;
-    }
-
-    public Integer getParticionador() {
-        return particionador;
-    }
-
-    public void setParticionador(Integer particionador) {
-        this.particionador = particionador;
+    public void setTransaccionReversada(Transaccion transaccionReversada) {
+        this.transaccionReversada = transaccionReversada;
     }
     
     public Date getFechaTransaccion() {
@@ -77,25 +57,6 @@ public class Transaccion implements Serializable {
         this.fechaRegistro = fechaRegistro;
     }
 
-    public Entidad getEntidad() {
-        return entidad;
-    }
-
-    public void setEntidad(Entidad entidad) {
-        this.entidad = entidad;
-    }
-
-    public BigDecimal getMonto() {
-        return monto;
-    }
-
-    public void setMonto(BigDecimal monto) {
-        this.monto = monto;
-    }
-
-    public String getGlosa() {
-        return glosa;
-    }
 
     public void setGlosa(String glosa) {
         this.glosa = glosa;
@@ -110,37 +71,33 @@ public class Transaccion implements Serializable {
     }
     
     
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Transaccion)) {
-            return false;
-        }
-        Transaccion other = (Transaccion) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
 
     @Override
     public String toString() {
         return "ec.com.vipsoft.erp.abinadi.contabilidad.Transaccion[ id=" + id + " ]";
+    }
+
+    public boolean isMayorizada() {
+        return mayorizada;
+    }
+
+    public void setMayorizada(boolean mayorizada) {
+        this.mayorizada = mayorizada;
+    }    
+
+    
+    public boolean estaCuadrada() {
+        boolean retorno=false;
+        
+        return retorno;
+    }
+
+    public String getSecuenciaTransaccion() {
+        return secuenciaTransaccion;
+    }
+
+    public void setSecuenciaTransaccion(String secuenciaTransaccion) {
+        this.secuenciaTransaccion = secuenciaTransaccion;
     }
     
 }

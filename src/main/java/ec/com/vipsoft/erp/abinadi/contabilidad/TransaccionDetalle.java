@@ -23,7 +23,7 @@ import javax.persistence.ManyToOne;
 @Entity
 public class TransaccionDetalle implements Serializable,Comparable<TransaccionDetalle> {
     @ManyToOne
-    private Transaccion transaccion;
+    private PlantillaDeTransaccion transaccion;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)   
@@ -81,5 +81,44 @@ public class TransaccionDetalle implements Serializable,Comparable<TransaccionDe
         }
         return retorno;
     }
-    
+
+    public PlantillaDeTransaccion getTransaccion() {
+        return transaccion;
+    }
+
+    public void setTransaccion(PlantillaDeTransaccion transaccion) {
+        this.transaccion = transaccion;
+    }
+
+    public CuentaContable getCuentaContable() {
+        return cuentaContable;
+    }
+
+    public void setCuentaContable(CuentaContable cuentaContable) {
+        this.cuentaContable = cuentaContable;
+    }
+
+    public TipoTransaccionDetalle getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoTransaccionDetalle tipo) {
+        this.tipo = tipo;
+    }
+
+    public BigDecimal getMonto() {
+        return monto;
+    }
+
+    public void setMonto(BigDecimal monto) {
+        this.monto = monto;
+    }
+
+    public Integer getParticionador() {
+        return particionador;
+    }
+
+    public void setParticionador(Integer particionador) {
+        this.particionador = particionador;
+    }  
 }

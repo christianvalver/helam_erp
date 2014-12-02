@@ -46,7 +46,7 @@ public class Bodega implements Serializable {
     private List<Kardex>kardexes;
     @NotNull
     @OneToOne
-    protected CuentaContable cuentaContable;
+    protected CuentaContable cuentaContableBodega;
     
     private String codigo;
     private String descripcion;
@@ -145,12 +145,14 @@ public class Bodega implements Serializable {
         this.kardexes = kardexes;
     }
 
-    public CuentaContable getCuentaContable() {
-        return cuentaContable;
+    public CuentaContable getCuentaContableBodega() {
+        return cuentaContableBodega;
     }
 
-    public void setCuentaContable(CuentaContable cuentaContable) {
-        this.cuentaContable = cuentaContable;
+    public void setCuentaContableBodega(CuentaContable cuentaContableBodega) {
+        this.cuentaContableBodega = cuentaContableBodega;
     }
+
+    
     
 }

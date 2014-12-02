@@ -275,5 +275,17 @@ public abstract class CuentaContable implements Serializable, Comparable<CuentaC
         this.esAuxiliar = esAuxiliar;
     }
 
+    public void aumentaDebito(BigDecimal monto) {
+        if(subCuentas.isEmpty()){
+            debe=debe.add(monto);
+        }
+    }
+
+    public void aumentaCredito(BigDecimal monto) {
+        if(subCuentas.isEmpty()){
+            haber=haber.add(monto);
+        }
+    }
+
 }
 
