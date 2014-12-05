@@ -40,7 +40,7 @@ public class MiUI extends UI{
     protected void init(VaadinRequest request) {
         navigator.addProvider(viewProvider);
         if(planCuenta.existeUnaEmpresaRegistrada()){
-            navigator.navigateTo("libroDiario");
+            navigator.navigateTo("menu");
         }
      //   navigator.addView("", EntidadVista.class);
       //  setContent(this);

@@ -18,7 +18,11 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import ec.com.vipsoft.erp.abinadi.dominio.Producto;
 import ec.com.vipsoft.erp.abinadi.logica.AdministradorEntidad;
+import ec.com.vipsoft.erp.abinadi.websesion.SesionUsuario;
+import javax.annotation.PostConstruct;
+//import ec.com.vipsoft.erp.abinadi.websesion.SessionUsuario;
 import javax.ejb.EJB;
+import javax.inject.Inject;
 
 /**
  *
@@ -28,6 +32,8 @@ import javax.ejb.EJB;
 @CDIView("bys")
 public class ProductoYServiciosView extends VerticalLayout implements View{
 
+    @Inject    
+    SesionUsuario sesion;
     @EJB
     AdministradorEntidad amdinistrador;
     private final TextField ruc;
@@ -42,6 +48,7 @@ public class ProductoYServiciosView extends VerticalLayout implements View{
         super();
         ruc=new TextField();
         codigoIVA=new TextField();
+        codigoIVA.setMaxLength(2);
         codigoICE=new TextField();
         codigo=new TextField();
         codigoAlterno=new TextField();
@@ -95,13 +102,19 @@ public class ProductoYServiciosView extends VerticalLayout implements View{
                 
             }
         });
+        //ruc.setValue(sesion.getRuc());
     }
 
+    @PostConstruct
+            public void llenar(){
+                
+            }
     
     Navigator navigator;
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         navigator=event.getNavigator();
+        ruc.setValue(sesion.getRucCompañia());
     }
     
 }

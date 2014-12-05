@@ -5,6 +5,8 @@
  */
 package ec.com.vipsoft.erp.abinadi.contabilidad;
 
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -30,6 +32,7 @@ public class Transaccion extends PlantillaDeTransaccion {
     private String secuenciaTransaccion;
     @OneToOne
     private Transaccion transaccionReversada;
+    transient SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 
     @ManyToOne
     private CuentaContable cuentaACompletar;
@@ -100,4 +103,26 @@ public class Transaccion extends PlantillaDeTransaccion {
         this.secuenciaTransaccion = secuenciaTransaccion;
     }
     
+    @Override
+    public void anadirCredito(CuentaContable c1, BigDecimal monto) {        
+        TransaccionDetalle detalle=new TransaccionDetalle();
+        detalle.setCuentaContable(c1);
+        detalle.setTipo(TipoTransaccionDetalle.credito);
+        detalle.setMonto(monto);
+        detalle.setTransaccion(this);
+        detalle.setParticionador(Integer.valueOf(sdf.format(new Date())));
+        detalles.add(detalle);
+    }
+
+    @Override
+    public void anadirDebito(CuentaContable c2, BigDecimal monto) {        
+        TransaccionDetalle detalle=new TransaccionDetalle();
+        detalle.setCuentaContable(c2);
+        detalle.setTipo(TipoTransaccionDetalle.debito);
+        detalle.setMonto(monto);
+        detalle.setTransaccion(this);
+        detalle.setParticionador(Integer.valueOf(sdf.format(new Date())));
+        detalles.add(detalle);
+    }
+
 }

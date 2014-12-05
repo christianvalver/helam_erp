@@ -15,7 +15,11 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import ec.com.vipsoft.erp.abinadi.logica.AdministradorEntidad;
+import ec.com.vipsoft.erp.abinadi.websesion.SesionUsuario;
+import javax.annotation.PostConstruct;
+//import ec.com.vipsoft.erp.abinadi.websesion.SessionUsuario;
 import javax.ejb.EJB;
+import javax.inject.Inject;
 
 /**
  *
@@ -29,9 +33,12 @@ public class EntidadVista extends HorizontalLayout implements View {
     private final TextField nombreComerical;
     private final Button registrar;
     private Navigator navigator;
+    @Inject
+    private SesionUsuario sesionUsuario;
 
     @EJB
     private AdministradorEntidad administradorEntidad;
+    //@Inject  SessionUsuario sesion;
     public EntidadVista() {
         super();
       //  setSizeFull();
@@ -49,13 +56,22 @@ public class EntidadVista extends HorizontalLayout implements View {
         addComponent(new Label("nombre comercial"));
         addComponent(nombreComerical);
         addComponent(registrar);
-        registrar.addClickListener(new Button.ClickListener() {
+      
+        //ponemos los valores cargados por defecto 
+        //
+    }
+
+    @PostConstruct
+    public void despuesConstructor(){
+          registrar.addClickListener(new Button.ClickListener() {
 
             @Override
             public void buttonClick(Button.ClickEvent event) {
                 administradorEntidad.registrarEntidad(ruc.getValue(), razonSocial.getValue(),nombreComerical.getValue());
                 administradorEntidad.postregistrarEntidad(ruc.getValue());
-                
+                 //ruc.setValue;   
+                sesionUsuario.setRucCompañia(ruc.getValue());
+    //sesion.setRuc(ruc.getValue());
                     Notification.show("se ha grabado una entidad con id ");
                     ruc.setValue("");
                     razonSocial.setValue("");
@@ -64,11 +80,7 @@ public class EntidadVista extends HorizontalLayout implements View {
                     
             }
         });
-        //ponemos los valores cargados por defecto 
-        
     }
-
-    
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         navigator=event.getNavigator();

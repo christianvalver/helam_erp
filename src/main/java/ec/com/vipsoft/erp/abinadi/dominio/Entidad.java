@@ -6,11 +6,14 @@
 package ec.com.vipsoft.erp.abinadi.dominio;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.validation.constraints.Pattern;
 
 /**
@@ -19,6 +22,21 @@ import javax.validation.constraints.Pattern;
  */
 @Entity
 public class Entidad implements Serializable,Comparable<Entidad> {
+    @PrePersist
+    public void verificarAntesPersistir(){
+        if(cierreKardex==null){
+            SimpleDateFormat anio=new SimpleDateFormat("yyyy");
+            SimpleDateFormat mes=new SimpleDateFormat("MM");
+            StringBuilder sb=new StringBuilder(anio.format(new Date()));
+            if(Integer.parseInt(mes.format(new Date()))>6){
+                sb.append(2);
+            }else{
+                sb.append(1);
+            }
+            cierreKardex=Integer.valueOf(sb.toString());
+        }
+    }
+    
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

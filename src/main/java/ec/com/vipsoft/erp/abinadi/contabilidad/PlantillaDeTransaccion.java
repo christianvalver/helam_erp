@@ -27,7 +27,7 @@ import javax.persistence.OneToMany;
  *
  * @author chrisvv
  */
-@Entity
+@Entity(name = "transaccion")
 @DiscriminatorColumn(name = "tipo",length = 2,discriminatorType = DiscriminatorType.STRING)
 @DiscriminatorValue("p")
 public class PlantillaDeTransaccion implements Serializable {
@@ -119,6 +119,8 @@ public class PlantillaDeTransaccion implements Serializable {
         detalle.setCuentaContable(c1);
         detalle.setTipo(TipoTransaccionDetalle.credito);
         detalle.setMonto(monto);
+        detalle.setTransaccion(this);
+        detalle.setParticionador(1);
         detalles.add(detalle);
     }
 
@@ -127,6 +129,8 @@ public class PlantillaDeTransaccion implements Serializable {
         detalle.setCuentaContable(c2);
         detalle.setTipo(TipoTransaccionDetalle.debito);
         detalle.setMonto(monto);
+        detalle.setTransaccion(this);
+        detalle.setParticionador(1);
         detalles.add(detalle);
     }
 
