@@ -13,6 +13,7 @@ import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
 import ec.com.vipsoft.erp.abinadi.logica.PlanCuentaManager;
+import ec.com.vipsoft.erp.abinadi.managedbeans.SesionUsuario;
 import javax.ejb.EJB;
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
@@ -36,11 +37,16 @@ public class MiUI extends UI{
     CDIViewProvider viewProvider;
     @EJB
     PlanCuentaManager planCuenta;
+    @Inject
+    SesionUsuario sesionUsuario;
     @Override    
     protected void init(VaadinRequest request) {
         navigator.addProvider(viewProvider);
         if(planCuenta.existeUnaEmpresaRegistrada()){
-            navigator.navigateTo("menu");
+           sesionUsuario.setRucCompañia(planCuenta.getRucEmpresaXDefecto());
+            navigator.navigateTo("");
+        }else{
+            navigator.navigateTo("entidad");
         }
      //   navigator.addView("", EntidadVista.class);
       //  setContent(this);

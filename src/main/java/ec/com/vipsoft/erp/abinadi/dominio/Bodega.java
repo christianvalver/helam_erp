@@ -26,7 +26,7 @@ import javax.validation.constraints.NotNull;
  * @author chrisvv
  */
 @Entity
-public class Bodega implements Serializable {
+public class Bodega implements Serializable,Comparable<Bodega> {
 
     public Bodega() {
         super();
@@ -39,6 +39,7 @@ public class Bodega implements Serializable {
     private Long id;
     private boolean xdefault;
     private boolean estricto;
+    private Integer prioridad;
     @NotNull
     @ManyToOne
     protected Entidad entidad;
@@ -137,6 +138,14 @@ public class Bodega implements Serializable {
         
     }
 
+    public Integer getPrioridad() {
+        return prioridad;
+    }
+
+    public void setPrioridad(Integer prioridad) {
+        this.prioridad = prioridad;
+    }
+
     public List<Kardex> getKardexes() {
         return kardexes;
     }
@@ -151,6 +160,15 @@ public class Bodega implements Serializable {
 
     public void setCuentaContableBodega(CuentaContable cuentaContableBodega) {
         this.cuentaContableBodega = cuentaContableBodega;
+    }
+
+    @Override
+    public int compareTo(Bodega o) {
+        int compa=entidad.compareTo(o.entidad);
+        if(compa==0){
+            compa=prioridad.compareTo(o.prioridad);
+        }
+        return compa;
     }
 
     

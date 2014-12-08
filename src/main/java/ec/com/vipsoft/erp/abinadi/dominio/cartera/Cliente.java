@@ -23,7 +23,6 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.ws.rs.NotAcceptableException;
 
 /**
  *
@@ -56,8 +55,9 @@ public class Cliente extends Contribuyente implements Serializable {
     protected Set<NotaCredito>notasCredito;
     @OneToOne(cascade = CascadeType.ALL)
     protected CuentaContable cuentaXCobrar;
-
+    
     public BigDecimal getCapitalAdeudado() {
+        
         return capitalAdeudado;
     }
 

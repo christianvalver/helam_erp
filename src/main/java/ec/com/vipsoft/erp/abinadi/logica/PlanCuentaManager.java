@@ -11,8 +11,10 @@ import ec.com.vipsoft.erp.abinadi.contabilidad.CuentaDeudora;
 import ec.com.vipsoft.erp.abinadi.contabilidad.GrupoCuenta;
 import ec.com.vipsoft.erp.abinadi.dominio.Bodega;
 import ec.com.vipsoft.erp.abinadi.dominio.Entidad;
+import ec.com.vipsoft.erp.abinadi.dominio.PuntoVenta;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.faces.event.PostConstructViewMapEvent;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -70,16 +72,23 @@ public class PlanCuentaManager {
         CuentaContable cydxc=ac.anadirSubCuenta("CUENTAS Y DOCUMENTOS POR COBRAR");
         CuentaContable cxcclientes=cydxc.anadirSubCuenta("CUENTAS POR COBRAR A CLIENTES");
                 
+        PuntoVenta posMatriz=new PuntoVenta();
+        posMatriz.setEntidad(entidad);
+        posMatriz.setCodigoPuntoVenta("001");
+        posMatriz.setSecuenciaFacturacion(1L);
         Bodega bodegaPrincipal = new Bodega();
+        bodegaPrincipal.setPrioridad(1);
         bodegaPrincipal.setCodigo("001");
         bodegaPrincipal.setDescripcion("BODEGA MATRIZ");
         bodegaPrincipal.setEntidad(entidad);  
         bodegaPrincipal.setEstricto(true);
+        posMatriz.setBodegaPrincipal(bodegaPrincipal);
         Bodega bodegaTransito=new Bodega();
         bodegaTransito.setCodigo("00");
         bodegaTransito.setDescripcion("BODEGA TRANSITO");
         bodegaTransito.setEntidad(entidad);
         bodegaTransito.setEstricto(false);
+        bodegaTransito.setPrioridad(2);
         
         CuentaContable inventario=ac.anadirSubCuenta("INVENTARIO");
         CuentaContable cbodegaPrincipal=inventario.anadirSubCuenta("BODEGA MATRIZ");
@@ -100,6 +109,8 @@ public class PlanCuentaManager {
         CuentaContable ingresoOrdinario=ingresos.anadirSubCuenta("INGRESOS ACTIVIDADES ORDINARIAS");
         CuentaContable ventas=ingresoOrdinario.anadirSubCuenta("VENTAS");
         CuentaContable vomatriz=ventas.anadirSubCuenta("MATRIZ");
+        posMatriz.setCuentaContable(vomatriz);
+        posMatriz.getBodegas().add(bodegaTransito);
         CuentaContable interesesganados=ingresoOrdinario.anadirSubCuenta("INTERESES GANADOS");
         CuentaContable otrosIngresos=ingresos.anadirSubCuenta("OTROS INGRESOS");
         
@@ -115,6 +126,7 @@ public class PlanCuentaManager {
         em.persist(ingresos);
         em.persist(gastos);
         em.persist(costos);
+        em.persist(posMatriz);
         em.persist(bodegaPrincipal);
         em.persist(bodegaTransito);
         
@@ -142,5 +154,14 @@ public class PlanCuentaManager {
     }
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
+
+    public String getRucEmpresaXDefecto() {
+        String retorno=null;
+        Entidad entidad=em.find(Entidad.class, 1l);
+        if(entidad!=null){
+            retorno=entidad.getRuc();
+        }               
+        return retorno;
+    }
     
 }

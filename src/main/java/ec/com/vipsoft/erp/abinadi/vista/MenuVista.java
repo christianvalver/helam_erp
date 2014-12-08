@@ -8,16 +8,19 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
+import javax.annotation.PostConstruct;
 
 /**
  *
  * @author chrisvv
  */
-@CDIView("menu")
+@CDIView("")
 public class MenuVista  extends VerticalLayout implements View{
     private final HorizontalLayout linea1;
     private final Button facturacion;
 
+    private final Button bienesYServicios;
+    
     public MenuVista() {
         super();
         setMargin(true);
@@ -25,20 +28,34 @@ public class MenuVista  extends VerticalLayout implements View{
         linea1.setMargin(true);
         linea1.setSizeFull();
         facturacion=new Button("Facturación");
-        facturacion.addClickListener(new Button.ClickListener() {
 
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
-                navegador.navigateTo("FacturacionCliente");
-            }
-        });
         linea1.addComponent(facturacion);
+        bienesYServicios=new Button("Bienes y servicios");
+        linea1.addComponent(bienesYServicios);
         
         addComponent(linea1);
         
     }
 
     
+    @PostConstruct
+            
+    public void despuesConstructor(){
+           facturacion.addClickListener(new Button.ClickListener() {
+
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                navegador.navigateTo("FacturacionCliente");
+            }
+        });
+           bienesYServicios.addClickListener(new Button.ClickListener() {
+
+               @Override
+               public void buttonClick(Button.ClickEvent event) {
+                   navegador.navigateTo("bys");
+               }
+           });
+    }       
     Navigator navegador;
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {

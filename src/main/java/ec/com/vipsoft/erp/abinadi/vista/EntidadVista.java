@@ -15,7 +15,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import ec.com.vipsoft.erp.abinadi.logica.AdministradorEntidad;
-import ec.com.vipsoft.erp.abinadi.websesion.SesionUsuario;
+import ec.com.vipsoft.erp.abinadi.managedbeans.SesionUsuario;
 import javax.annotation.PostConstruct;
 //import ec.com.vipsoft.erp.abinadi.websesion.SessionUsuario;
 import javax.ejb.EJB;
@@ -26,7 +26,7 @@ import javax.inject.Inject;
  * @author chrisvv
  */
 
-@CDIView("")
+@CDIView("entidad")
 public class EntidadVista extends HorizontalLayout implements View {
     private final TextField ruc;
     private final TextField razonSocial;

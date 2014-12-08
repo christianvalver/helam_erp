@@ -5,18 +5,22 @@
  */
 package ec.com.vipsoft.erp.abinadi.abinadi_erp.sri;
 
+import ec.com.vipsoft.erp.abinadi.dominio.Entidad;
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 /**
  *
  * @author chrisvv
  */
 @Entity
-public class Contribuyente implements Serializable {
+public class Contribuyente implements Serializable,Comparable<Contribuyente> {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +30,17 @@ public class Contribuyente implements Serializable {
     private String nombreComerical;
     private String direccion;
     private String telefono;
+    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    private Entidad entidad;
+
+    public Entidad getEntidad() {
+        return entidad;
+    }
+
+    public void setEntidad(Entidad entidad) {
+        this.entidad = entidad;
+    }
+    
     
     public String getIdentifiacion() {
         return identifiacion;
@@ -99,6 +114,11 @@ public class Contribuyente implements Serializable {
     @Override
     public String toString() {
         return "ec.com.vipsoft.erp.abinadi.dominio.Contribuyente[ id=" + id + " ]";
+    }
+
+    @Override
+    public int compareTo(Contribuyente o) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

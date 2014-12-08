@@ -6,7 +6,6 @@
 package ec.com.vipsoft.erp.abinadi.vista;
 
 import com.vaadin.cdi.CDIView;
-import com.vaadin.event.FieldEvents;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;

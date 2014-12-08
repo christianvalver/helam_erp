@@ -27,14 +27,26 @@ public abstract class BienEconomico implements Serializable,Comparable<BienEcono
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
     @Column(columnDefinition = "char(1) default'2'")
     protected String codigoIVA;
     protected String codigoICE;
+    //@NotNull
     protected String codigo;
+   //@NotNull
     protected String descripcion;
+    protected String codigoAlterno;
     @NotNull
     @ManyToOne
     protected Entidad entidad;
+
+    public String getCodigoAlterno() {
+        return codigoAlterno;
+    }
+
+    public void setCodigoAlterno(String codigoAlterno) {
+        this.codigoAlterno = codigoAlterno;
+    }
 
     
     public Entidad getEntidad() {
@@ -113,7 +125,7 @@ public abstract class BienEconomico implements Serializable,Comparable<BienEcono
     }
 
     @Override
-    public int compareTo(BienEconomico o) {
+    public int compareTo(BienEconomico o) {        
         int retorno=codigo.compareTo(o.codigo);        
         return retorno;
     }

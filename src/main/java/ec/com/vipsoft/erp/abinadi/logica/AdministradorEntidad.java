@@ -19,6 +19,8 @@ import java.util.Set;
 import java.util.TreeSet;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.jws.WebMethod;
+import javax.jws.WebService;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -29,6 +31,7 @@ import javax.validation.constraints.Pattern;
  * @author chrisvv
  */
 @Stateless
+@WebService
 public class AdministradorEntidad {
 
     @PersistenceContext
@@ -55,13 +58,23 @@ public class AdministradorEntidad {
        // return e.getId();
 
     }
-
-    
-    public void crearBienEconomico(BienEconomico b, String ruc) {
+    @WebMethod
+    public List<BienEconomico>listarBienesEconomicos(String ruc)
+    {
+        Query q=em.createQuery("select b from BienEconomico b where b.entidad.ruc=?1 order by b.descripcion");
+        q.setParameter(1, ruc);
+        return q.getResultList();        
+    }
+    @WebMethod
+    public void crearBienEconomico(BienEconomico b, @Pattern(regexp = "[0-9]{13,13}")String ruc) {
+        
+        
+        
         Query q = em.createQuery("select e from Entidad e where e.ruc=?1");
         q.setParameter(1, ruc);
         List<Entidad> listaEntidad = q.getResultList();
-        if (listaEntidad.get(0) != null) {
+        if(!listaEntidad.isEmpty()){
+            if (listaEntidad.get(0) != null) {
             Entidad entidad = em.find(Entidad.class, listaEntidad.get(0).getId());
             b.setEntidad(entidad);
             if (b instanceof Producto) {
@@ -85,12 +98,15 @@ public class AdministradorEntidad {
                     }
                 }
             } else {
+                b.setCodigoIVA("1"); //todo servicio paga iva 12
                 em.persist(b);
             }
         }
+        }
+        
 
     }
-    
+    @WebMethod
     public Set<BienEconomico>listarBienEconomico(String ruc){
         Set<BienEconomico>retorno=new TreeSet<>();
         
@@ -124,6 +140,7 @@ public class AdministradorEntidad {
        cbest.setCredito(true);
        cbest.setCuentaXCobrar(bestDoctor);
        cbest.setNombreComerical("BEST DOCTOR");
+       cbest.setRazonSocial("ELBESTD S.A");
        cbest.setIdentifiacion("0999999999001");
        
        em.persist(bestDoctor);
@@ -146,4 +163,5 @@ public class AdministradorEntidad {
         }
          
     }
+    
 }

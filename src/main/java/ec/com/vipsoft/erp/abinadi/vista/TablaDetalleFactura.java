@@ -22,6 +22,7 @@ public class TablaDetalleFactura extends Table {
         addContainerProperty("Valor Unitario", Label.class, "");
         addContainerProperty("Descuento", Label.class, "");
         addContainerProperty("Total", Label.class, "");
+        addContainerProperty("Bodega", Label.class, "");
     }
     
     

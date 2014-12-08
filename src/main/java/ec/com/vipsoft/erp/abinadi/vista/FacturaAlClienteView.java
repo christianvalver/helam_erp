@@ -15,7 +15,9 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
 import java.util.Date;
 
 /**
@@ -201,10 +203,51 @@ public class FacturaAlClienteView extends VerticalLayout implements View{
         setExpandRatio(linea4, 2);
         setExpandRatio(tablaDetalleCliente, 10);
         setComponentAlignment(linea4, Alignment.TOP_CENTER);
+        iniciarEventos();
     }
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         navigator=event.getNavigator();
+    }
+    
+    public Window mostrarProductos(){
+        Window window=new Window();
+        VerticalLayout layoutW=new VerticalLayout();
+        layoutW.setMargin(true);
+        HorizontalLayout cabecera=new HorizontalLayout();
+        cabecera.setMargin(true);
+        TextField criterioBusqueda=new TextField();
+        Button botonBuscar=new Button("Buscar");
+        Button botonSeleccionar=new Button("Seleccionar");
+        TablaBienesYServicios tabla=new TablaBienesYServicios();
+        
+        tabla.setPageLength(5);
+        cabecera.addComponent(new Label("Producto"));
+        cabecera.addComponent(criterioBusqueda);
+        cabecera.addComponent(botonBuscar);
+        cabecera.addComponent(botonSeleccionar);
+        
+        layoutW.addComponent(cabecera);
+        VerticalLayout layoutTabla=new VerticalLayout();
+        layoutTabla.setMargin(true);
+        layoutTabla.addComponent(tabla);
+        layoutW.addComponent(layoutTabla);
+        window.setContent(layoutW);
+        
+        
+        window.center();
+        return window;
+    }
+    
+    public void iniciarEventos(){
+        buscarProductoCliente.addClickListener(new Button.ClickListener() {
+
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                Window venta=mostrarProductos();
+                UI.getCurrent().addWindow(venta);
+            }
+        });
     }
     
 }
