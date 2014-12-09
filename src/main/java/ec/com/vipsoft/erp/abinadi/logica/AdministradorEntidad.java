@@ -17,6 +17,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.jws.WebMethod;
@@ -108,11 +109,24 @@ public class AdministradorEntidad {
     }
     @WebMethod
     public Set<BienEconomico>listarBienEconomico(String ruc){
-        Set<BienEconomico>retorno=new TreeSet<>();
         
+        Set<BienEconomico>retorno=new TreeSet<>();
+        Query q=em.createQuery("select e from Entidad e where e.ruc=?1");
+        q.setParameter(1, ruc);
+        List<Entidad>listaEntidad=q.getResultList();
+        if(!listaEntidad.isEmpty()){
+            Entidad entidad=em.find(Entidad.class, listaEntidad.get(0).getId());
+            Query qproductos=em.createQuery("select b from BienEconomico b where b.entidad.id=?1");
+            qproductos.setParameter(1, entidad.getId());
+            List<BienEconomico>listadobienes=qproductos.getResultList();
+            LOG.info("se obtuvo lista bienes encontrado "+listadobienes.size());
+            retorno.addAll(listadobienes);
+        }
+                 
         
         return retorno;
     }
+    private static final Logger LOG = Logger.getLogger(AdministradorEntidad.class.getName());
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
     public void registrarTransaccionesPlantillas(Entidad e){

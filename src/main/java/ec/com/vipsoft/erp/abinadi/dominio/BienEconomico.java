@@ -126,7 +126,10 @@ public abstract class BienEconomico implements Serializable,Comparable<BienEcono
 
     @Override
     public int compareTo(BienEconomico o) {        
-        int retorno=codigo.compareTo(o.codigo);        
+        int retorno=descripcion.compareTo(o.descripcion);        
+        if(retorno==0){
+            retorno=codigo.compareTo(o.codigo);
+        }
         return retorno;
     }
     

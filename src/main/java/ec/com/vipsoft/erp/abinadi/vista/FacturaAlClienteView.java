@@ -18,7 +18,10 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import ec.com.vipsoft.erp.abinadi.logica.AdministradorEntidad;
+import ec.com.vipsoft.erp.abinadi.managedbeans.SesionUsuario;
 import java.util.Date;
+import javax.inject.Inject;
 
 /**
  *
@@ -65,9 +68,11 @@ public class FacturaAlClienteView extends VerticalLayout implements View{
     private Label total;
     private Label totalRotulo;
     private TablaDetalleFactura tablaDetalleCliente;
+   
     private Label saldoRotulo;
     private Label saldo;
-
+    @Inject
+    private SesionUsuario sesionUsuario;
     public FacturaAlClienteView(){
         
         super();
@@ -191,6 +196,7 @@ public class FacturaAlClienteView extends VerticalLayout implements View{
         linea4.addComponent(saldoRotulo);
         linea4.addComponent(saldo);
         tablaDetalleCliente=new TablaDetalleFactura();
+        tablaDetalleCliente.setPageLength(8);
         tablaDetalleCliente.setSizeFull();
         addComponent(linea1);
         addComponent(linea2);
@@ -203,38 +209,47 @@ public class FacturaAlClienteView extends VerticalLayout implements View{
         setExpandRatio(linea4, 2);
         setExpandRatio(tablaDetalleCliente, 10);
         setComponentAlignment(linea4, Alignment.TOP_CENTER);
-        iniciarEventos();
+        //iniciarEventos();
     }
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         navigator=event.getNavigator();
+        iniciarEventos();
     }
     
     public Window mostrarProductos(){
         Window window=new Window();
         VerticalLayout layoutW=new VerticalLayout();
+        //layoutW.setSizeFull();
+        
         layoutW.setMargin(true);
         HorizontalLayout cabecera=new HorizontalLayout();
+        //cabecera.setSizeFull();
+        cabecera.setSpacing(true);
         cabecera.setMargin(true);
         TextField criterioBusqueda=new TextField();
         Button botonBuscar=new Button("Buscar");
         Button botonSeleccionar=new Button("Seleccionar");
-        TablaBienesYServicios tabla=new TablaBienesYServicios();
+        TablaBusquedaBienEconomico tabla=new TablaBusquedaBienEconomico();
         
-        tabla.setPageLength(5);
+       // tabla.setPageLength(5);
         cabecera.addComponent(new Label("Producto"));
         cabecera.addComponent(criterioBusqueda);
         cabecera.addComponent(botonBuscar);
         cabecera.addComponent(botonSeleccionar);
         
         layoutW.addComponent(cabecera);
-        VerticalLayout layoutTabla=new VerticalLayout();
+        HorizontalLayout layoutTabla=new HorizontalLayout();
+        layoutTabla.setSpacing(true);
+        //layoutTabla.setSizeFull();
         layoutTabla.setMargin(true);
+        layoutTabla.setWidth("100%");
+        tabla.setWidth("100%");
         layoutTabla.addComponent(tabla);
         layoutW.addComponent(layoutTabla);
         window.setContent(layoutW);
         
-        
+        tabla.anadir(sesionUsuario.listarBienesParaSeleccion());
         window.center();
         return window;
     }

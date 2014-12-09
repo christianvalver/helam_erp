@@ -34,6 +34,7 @@ public class TablaBienesYServicios extends Table{
         addContainerProperty(ICE, Label.class, "");
         addContainerProperty(DESCRIPCION, Label.class, "");
         addContainerProperty(TIPO, Label.class, "");
+        setSelectable(true);
         //setColumnWidth("Código",70);
         //setColumnWidth("Código alterno",70);
         //setColumnWidth("IVA",70);

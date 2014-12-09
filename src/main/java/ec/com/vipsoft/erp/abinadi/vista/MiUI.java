@@ -37,6 +37,7 @@ public class MiUI extends UI{
     CDIViewProvider viewProvider;
     @EJB
     PlanCuentaManager planCuenta;
+    
     @Inject
     SesionUsuario sesionUsuario;
     @Override    

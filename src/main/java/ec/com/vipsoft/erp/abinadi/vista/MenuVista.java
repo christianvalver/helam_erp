@@ -18,7 +18,7 @@ import javax.annotation.PostConstruct;
 public class MenuVista  extends VerticalLayout implements View{
     private final HorizontalLayout linea1;
     private final Button facturacion;
-
+    private final Button libroDiario;
     private final Button bienesYServicios;
     
     public MenuVista() {
@@ -28,11 +28,11 @@ public class MenuVista  extends VerticalLayout implements View{
         linea1.setMargin(true);
         linea1.setSizeFull();
         facturacion=new Button("Facturación");
-
+        libroDiario=new Button("Libro diario");
         linea1.addComponent(facturacion);
         bienesYServicios=new Button("Bienes y servicios");
         linea1.addComponent(bienesYServicios);
-        
+        linea1.addComponent(libroDiario);
         addComponent(linea1);
         
     }
@@ -53,6 +53,13 @@ public class MenuVista  extends VerticalLayout implements View{
                @Override
                public void buttonClick(Button.ClickEvent event) {
                    navegador.navigateTo("bys");
+               }
+           });
+           libroDiario.addClickListener(new Button.ClickListener() {
+
+               @Override
+               public void buttonClick(Button.ClickEvent event) {
+                   navegador.navigateTo("libroDiario");
                }
            });
     }       
