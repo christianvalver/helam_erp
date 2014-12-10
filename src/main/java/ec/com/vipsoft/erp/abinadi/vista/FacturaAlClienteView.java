@@ -145,10 +145,14 @@ public class FacturaAlClienteView extends VerticalLayout implements View{
         productoClienteTextField=new TextField();
         productoClienteTextField.setWidth("100%");
         buscarProductoCliente=new Button("...");
+        buscarProductoCliente.addStyleName("tiny");
          
         anadirProductoCliente=new Button("+");
+        anadirProductoCliente.addStyleName("small");
         registrarFacturaCliente=new Button("Registrar");
+        registrarFacturaCliente.addStyleName("primary");
         cancelarFacturaCliente=new Button("Cancelar");
+        cancelarFacturaCliente.addStyleName("danger");
         
         linea3.addComponent(cantidadLabel);
         linea3.addComponent(cantidadClienteTextField);
@@ -218,7 +222,7 @@ public class FacturaAlClienteView extends VerticalLayout implements View{
     }
     
     public Window mostrarProductos(){
-        Window window=new Window();
+        final Window window=new Window();
         VerticalLayout layoutW=new VerticalLayout();
         //layoutW.setSizeFull();
         
@@ -229,7 +233,9 @@ public class FacturaAlClienteView extends VerticalLayout implements View{
         cabecera.setMargin(true);
         TextField criterioBusqueda=new TextField();
         Button botonBuscar=new Button("Buscar");
+        
         Button botonSeleccionar=new Button("Seleccionar");
+        botonSeleccionar.addStyleName("primary");
         TablaBusquedaBienEconomico tabla=new TablaBusquedaBienEconomico();
         
        // tabla.setPageLength(5);
@@ -248,9 +254,24 @@ public class FacturaAlClienteView extends VerticalLayout implements View{
         layoutTabla.addComponent(tabla);
         layoutW.addComponent(layoutTabla);
         window.setContent(layoutW);
-        
+        window.setClosable(true);
+        botonSeleccionar.addClickListener(new Button.ClickListener() {
+
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                //
+                cancelarFacturaCliente.setEnabled(true);
+                //si hay seleccion habilitar
+                if(!sesionUsuario.listarSelecionados().isEmpty()){
+                    registrarFacturaCliente.setEnabled(true);
+                    
+                }
+                window.close();
+            }
+        });
         tabla.anadir(sesionUsuario.listarBienesParaSeleccion());
         window.center();
+        
         return window;
     }
     
@@ -259,6 +280,8 @@ public class FacturaAlClienteView extends VerticalLayout implements View{
 
             @Override
             public void buttonClick(Button.ClickEvent event) {
+                registrarFacturaCliente.setEnabled(false);
+                cancelarFacturaCliente.setEnabled(false);
                 Window venta=mostrarProductos();
                 UI.getCurrent().addWindow(venta);
             }

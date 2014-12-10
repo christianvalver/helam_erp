@@ -77,6 +77,7 @@ public class ProductoYServiciosView extends VerticalLayout implements View{
         linea1.setSpacing(true);
         //linea2.setSpacing(true);
         registrar=new Button("registrar");
+        registrar.addStyleName("primary");
 //        linea1.addComponent(new Label("ruc"));
 //        linea1.addComponent(ruc);
         linea1.addComponent(new Label("código IVA"));

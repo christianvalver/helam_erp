@@ -72,6 +72,9 @@ public class SesionUsuario implements Serializable {
         objetosSeleccionadosTemporales.clear();
     }
 
+    public Set<BienSeleccion>listarSelecionados(){
+        return objetosSeleccionadosTemporales;
+    }
     public Set<BienSeleccion>listarBienesParaSeleccion(){
         Set<BienSeleccion>retorno=new TreeSet<>();
         Collection<BienEconomico>listadoBienes=adminEntidad.listarBienEconomico(rucCompañia);
