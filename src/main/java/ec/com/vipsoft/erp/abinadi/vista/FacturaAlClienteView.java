@@ -219,6 +219,7 @@ public class FacturaAlClienteView extends VerticalLayout implements View{
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         navigator=event.getNavigator();
         iniciarEventos();
+        registrarFacturaCliente.setEnabled(false);
     }
     
     public Window mostrarProductos(){
@@ -255,6 +256,13 @@ public class FacturaAlClienteView extends VerticalLayout implements View{
         layoutW.addComponent(layoutTabla);
         window.setContent(layoutW);
         window.setClosable(true);
+        window.addCloseListener(new Window.CloseListener() {
+
+            @Override
+            public void windowClose(Window.CloseEvent e) {
+                cancelarFacturaCliente.setEnabled(true);
+            }
+        });
         botonSeleccionar.addClickListener(new Button.ClickListener() {
 
             @Override
@@ -284,6 +292,14 @@ public class FacturaAlClienteView extends VerticalLayout implements View{
                 cancelarFacturaCliente.setEnabled(false);
                 Window venta=mostrarProductos();
                 UI.getCurrent().addWindow(venta);
+            }
+        });
+        cancelarFacturaCliente.addClickListener(new Button.ClickListener() {
+
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                sesionUsuario.limpiarObjetosSeleccionados();
+                navigator.navigateTo("");
             }
         });
     }
