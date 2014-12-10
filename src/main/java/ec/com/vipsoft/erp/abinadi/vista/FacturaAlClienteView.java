@@ -145,7 +145,7 @@ public class FacturaAlClienteView extends VerticalLayout implements View{
         productoClienteTextField=new TextField();
         productoClienteTextField.setWidth("100%");
         buscarProductoCliente=new Button("...");
-        buscarProductoCliente.addStyleName("tiny");
+        buscarProductoCliente.addStyleName("friendly");
          
         anadirProductoCliente=new Button("+");
         anadirProductoCliente.addStyleName("small");
@@ -159,7 +159,7 @@ public class FacturaAlClienteView extends VerticalLayout implements View{
         linea3.addComponent(productoLabel);
         linea3.addComponent(productoClienteTextField);
         linea3.addComponent(buscarProductoCliente);
-        linea3.addComponent(anadirProductoCliente);        
+        //linea3.addComponent(anadirProductoCliente);        
         linea3.addComponent(registrarFacturaCliente);
         linea3.addComponent(cancelarFacturaCliente);
         
@@ -167,7 +167,7 @@ public class FacturaAlClienteView extends VerticalLayout implements View{
         linea3.setExpandRatio(cantidadClienteTextField, 4);
         linea3.setExpandRatio(productoLabel, 2);
         linea3.setExpandRatio(productoClienteTextField, 6);
-        linea3.setExpandRatio(anadirProductoCliente, 1);
+        //linea3.setExpandRatio(anadirProductoCliente, 1);
         linea3.setExpandRatio(buscarProductoCliente, 1);
         linea3.setExpandRatio(registrarFacturaCliente,2);
         linea3.setExpandRatio(cancelarFacturaCliente, 2);
