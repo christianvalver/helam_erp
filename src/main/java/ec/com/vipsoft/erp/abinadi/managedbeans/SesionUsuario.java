@@ -5,12 +5,15 @@
  */
 package ec.com.vipsoft.erp.abinadi.managedbeans;
 
+import ec.com.vipsoft.erp.abinadi.abinadi_erp.sri.FacturaDetalle;
 import ec.com.vipsoft.erp.abinadi.dominio.BienEconomico;
 import ec.com.vipsoft.erp.abinadi.dominio.Entidad;
 import ec.com.vipsoft.erp.abinadi.logica.AdministradorEntidad;
 import ec.com.vipsoft.erp.abinadi.util.BienSeleccion;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import javax.ejb.EJB;
@@ -25,6 +28,8 @@ public class SesionUsuario implements Serializable {
 
     public SesionUsuario() {
         objetosSeleccionadosTemporales = new TreeSet<>();
+        detallesFactura=new ArrayList<>();
+        
     }
     @EJB
     private AdministradorEntidad adminEntidad;
@@ -33,7 +38,7 @@ public class SesionUsuario implements Serializable {
     protected String sucursal;
     protected Entidad entidad;
     protected Set<BienSeleccion> objetosSeleccionadosTemporales;
-
+    protected List<FacturaDetalle>detallesFactura;
     public String getUsuario() {
         return usuario;
     }
@@ -64,6 +69,11 @@ public class SesionUsuario implements Serializable {
         return sb.toString();
     }
     
+    public void anadirSeleccion(List<String>codigos){
+        Set<BienEconomico>listado=adminEntidad.listarBienEconomico(rucCompañia,codigos);
+        //se recibe el codigo del bien ...entonces debo buscarlo de entr la lista de bienes
+        // entonces anadirlo 
+    }
     public void anadirSeleccion(BienSeleccion b){
         objetosSeleccionadosTemporales.add(b);
     }

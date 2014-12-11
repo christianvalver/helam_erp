@@ -6,11 +6,14 @@
 package ec.com.vipsoft.erp.abinadi.vista;
 
 import com.vaadin.cdi.CDIView;
+import com.vaadin.data.Container;
+import com.vaadin.data.Item;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.PopupDateField;
@@ -20,7 +23,9 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import ec.com.vipsoft.erp.abinadi.logica.AdministradorEntidad;
 import ec.com.vipsoft.erp.abinadi.managedbeans.SesionUsuario;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import javax.inject.Inject;
 
 /**
@@ -220,6 +225,7 @@ public class FacturaAlClienteView extends VerticalLayout implements View{
         navigator=event.getNavigator();
         iniciarEventos();
         registrarFacturaCliente.setEnabled(false);
+        cantidadClienteTextField.setValue("1");
     }
     
     public Window mostrarProductos(){
@@ -237,7 +243,7 @@ public class FacturaAlClienteView extends VerticalLayout implements View{
         
         Button botonSeleccionar=new Button("Seleccionar");
         botonSeleccionar.addStyleName("primary");
-        TablaBusquedaBienEconomico tabla=new TablaBusquedaBienEconomico();
+        final TablaBusquedaBienEconomico tabla=new TablaBusquedaBienEconomico();
         
        // tabla.setPageLength(5);
         cabecera.addComponent(new Label("Producto"));
@@ -269,11 +275,31 @@ public class FacturaAlClienteView extends VerticalLayout implements View{
             public void buttonClick(Button.ClickEvent event) {
                 //
                 cancelarFacturaCliente.setEnabled(true);
-                //si hay seleccion habilitar
-                if(!sesionUsuario.listarSelecionados().isEmpty()){
-                    registrarFacturaCliente.setEnabled(true);
-                    
+                ArrayList<String>datos=new ArrayList<>();
+                for (Iterator iterador=tabla.getItemIds().iterator();iterador.hasNext();){
+                     // Get the current item identifier, which is an integer.
+                     int iid = (Integer) iterador.next();        
+                    // Now get the actual item from the table.
+                     Item item = tabla.getItem(iid);
+                     // And now we can get to the actual checkbox object.
+                     CheckBox boton = (CheckBox)(item.getItemProperty("Selecto").getValue());
+                     // If the checkbox is selected.
+                    if(boton.getValue()){
+                        //seleccionamos el código y lo añadimos a la lista.                        
+                        Label valor=(Label)(item.getItemProperty("Código").getValue());
+                        datos.add(valor.getValue());
+                    }                                                                 
                 }
+                //si hay seleccion habilitar
+                if(!datos.isEmpty()){
+                    sesionUsuario.anadirSeleccion(datos);
+                    
+                                                        
+                    registrarFacturaCliente.setEnabled(true);
+                }else{
+                    registrarFacturaCliente.setEnabled(false);
+                }
+                
                 window.close();
             }
         });
@@ -300,6 +326,9 @@ public class FacturaAlClienteView extends VerticalLayout implements View{
             public void buttonClick(Button.ClickEvent event) {
                 sesionUsuario.limpiarObjetosSeleccionados();
                 navigator.navigateTo("");
+               // Container c ;
+               // c.add
+                
             }
         });
     }

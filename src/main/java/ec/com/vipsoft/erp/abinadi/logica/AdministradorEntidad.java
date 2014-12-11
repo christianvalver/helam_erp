@@ -14,6 +14,7 @@ import ec.com.vipsoft.erp.abinadi.dominio.Producto;
 import ec.com.vipsoft.erp.abinadi.dominio.Tarifa;
 import ec.com.vipsoft.erp.abinadi.dominio.cartera.Cliente;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -176,6 +177,12 @@ public class AdministradorEntidad {
             registrarTransaccionesPlantillas(e);
         }
          
+    }
+
+    public Set<BienEconomico> listarBienEconomico(String rucCompañia, List<String> codigos) {
+        Set<BienEconomico>retorno=new TreeSet<>();
+        return retorno;
+                
     }
     
 }

@@ -6,6 +6,7 @@
 package ec.com.vipsoft.erp.abinadi.vista;
 
 import com.vaadin.data.Item;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
 import ec.com.vipsoft.erp.abinadi.dominio.BienEconomico;
@@ -25,6 +26,7 @@ public class TablaBienesYServicios extends Table{
     public static final String ICE="ICE";
     public static final String DESCRIPCION="Descripción";
     public static final String TIPO="Tipo";
+    public static final String TARIFAS="Tarifas";
     public TablaBienesYServicios() {
         
         super();
@@ -34,6 +36,7 @@ public class TablaBienesYServicios extends Table{
         addContainerProperty(ICE, Label.class, "");
         addContainerProperty(DESCRIPCION, Label.class, "");
         addContainerProperty(TIPO, Label.class, "");
+        addContainerProperty(TARIFAS, BotonEstablecerTarifa.class, "");
         setSelectable(true);
         //setColumnWidth("Código",70);
         //setColumnWidth("Código alterno",70);
@@ -58,6 +61,7 @@ public class TablaBienesYServicios extends Table{
         if(bien instanceof Producto ){
             row1.getItemProperty(TIPO).setValue(new Label("PRODUCTO"));
         }
+        row1.getItemProperty(TARIFAS).setValue(new BotonEstablecerTarifa());
     }
 
     void anadir(List<BienEconomico> lista) {
